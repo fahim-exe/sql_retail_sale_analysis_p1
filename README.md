@@ -57,12 +57,12 @@ SELECT COUNT(*) FROM retail_salestb;
 '''
 
 **Customer Count**: Find out how many unique customers are in the dataset.
-'''
+'''sql
 SELECT COUNT(DISTINCT customer_id) FROM retail_salestb;
 '''
 
 **Category Count**: Identify all unique product categories in the dataset.
-'''
+'''sql
 SELECT DISTINCT category FROM retail_salestb;
 SELECT COUNT(DISTINCT category) FROM retail_salestb
 '''
