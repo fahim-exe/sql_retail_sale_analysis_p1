@@ -4,9 +4,9 @@
 
 **Project Title**: Retail Sales Analysis  
 **Level**: Beginner  
-**Database**: `p1_retail_db`
+**Database**: `sql_project_p1`
 
-This project is designed to demonstrate SQL skills and techniques typically used by data analysts to explore, clean, and analyze retail sales data. The project involves setting up a retail sales database, performing exploratory data analysis (EDA), and answering specific business questions through SQL queries. This project is ideal for those who are starting their journey in data analysis and want to build a solid foundation in SQL.
+This project is intended to show the techniques and skills in SQL that a data analyst typically uses when exploring, cleaning and analyzing retail sales data. The objective of this project is to create a retail sales database, conduct exploratory data analysis (EDA), and answer questions using SQL. This project is meant for people who are taking baby steps into data analysis and want to strengthen their fundamentals with SQL.
 
 ## Objectives
 
@@ -19,13 +19,15 @@ This project is designed to demonstrate SQL skills and techniques typically used
 
 ### 1. Database Setup
 
-- **Database Creation**: The project starts by creating a database named `p1_retail_db`.
-- **Table Creation**: A table named `retail_sales` is created to store the sales data. The table structure includes columns for transaction ID, sale date, sale time, customer ID, gender, age, product category, quantity sold, price per unit, cost of goods sold (COGS), and total sale amount.
+- **Database Creation**: The project starts by creating a database named `sql_project_p1`.
+- **Table Creation**: A table named `retail_salestb` is created to store the sales data. The table structure includes columns for transactions_id, sale_date,	sale_time, customer_id, gender,	age, category, quantiy, price_per_unit, cogs(cost of goods), total_sale amount.
 
 ```sql
-CREATE DATABASE p1_retail_db;
+CREATE DATABASE sql_project_p1;
 
-CREATE TABLE retail_sales
+DROP TABLE IF EXISTS retail_salestb;
+
+CREATE TABLE retail_salestb
 (
     transactions_id INT PRIMARY KEY,
     sale_date DATE,	
@@ -48,18 +50,31 @@ CREATE TABLE retail_sales
 - **Category Count**: Identify all unique product categories in the dataset.
 - **Null Value Check**: Check for any null values in the dataset and delete records with missing data.
 
-```sql
-SELECT COUNT(*) FROM retail_sales;
-SELECT COUNT(DISTINCT customer_id) FROM retail_sales;
-SELECT DISTINCT category FROM retail_sales;
 
-SELECT * FROM retail_sales
+**Record Count**: Determine the total number of records in the dataset.
+```sql
+SELECT COUNT(*) FROM retail_salestb;
+'''
+
+**Customer Count**: Find out how many unique customers are in the dataset.
+'''
+SELECT COUNT(DISTINCT customer_id) FROM retail_salestb;
+'''
+
+**Category Count**: Identify all unique product categories in the dataset.
+'''
+SELECT DISTINCT category FROM retail_salestb;
+SELECT COUNT(DISTINCT category) FROM retail_salestb
+'''
+
+
+SELECT * FROM retail_salestb
 WHERE 
     sale_date IS NULL OR sale_time IS NULL OR customer_id IS NULL OR 
     gender IS NULL OR age IS NULL OR category IS NULL OR 
     quantity IS NULL OR price_per_unit IS NULL OR cogs IS NULL;
 
-DELETE FROM retail_sales
+DELETE FROM retail_salestb
 WHERE 
     sale_date IS NULL OR sale_time IS NULL OR customer_id IS NULL OR 
     gender IS NULL OR age IS NULL OR category IS NULL OR 
@@ -73,7 +88,7 @@ The following SQL queries were developed to answer specific business questions:
 1. **Write a SQL query to retrieve all columns for sales made on '2022-11-05**:
 ```sql
 SELECT *
-FROM retail_sales
+FROM retail_salestb
 WHERE sale_date = '2022-11-05';
 ```
 
@@ -81,7 +96,7 @@ WHERE sale_date = '2022-11-05';
 ```sql
 SELECT 
   *
-FROM retail_sales
+FROM retail_salestb
 WHERE 
     category = 'Clothing'
     AND 
@@ -96,7 +111,7 @@ SELECT
     category,
     SUM(total_sale) as net_sale,
     COUNT(*) as total_orders
-FROM retail_sales
+FROM retail_salestb
 GROUP BY 1
 ```
 
@@ -104,13 +119,13 @@ GROUP BY 1
 ```sql
 SELECT
     ROUND(AVG(age), 2) as avg_age
-FROM retail_sales
+FROM retail_salestb
 WHERE category = 'Beauty'
 ```
 
 5. **Write a SQL query to find all transactions where the total_sale is greater than 1000.**:
 ```sql
-SELECT * FROM retail_sales
+SELECT * FROM retail_salestb
 WHERE total_sale > 1000
 ```
 
@@ -120,7 +135,7 @@ SELECT
     category,
     gender,
     COUNT(*) as total_trans
-FROM retail_sales
+FROM retail_salestb
 GROUP 
     BY 
     category,
@@ -141,7 +156,7 @@ SELECT
     EXTRACT(MONTH FROM sale_date) as month,
     AVG(total_sale) as avg_sale,
     RANK() OVER(PARTITION BY EXTRACT(YEAR FROM sale_date) ORDER BY AVG(total_sale) DESC) as rank
-FROM retail_sales
+FROM retail_salestb
 GROUP BY 1, 2
 ) as t1
 WHERE rank = 1
@@ -152,7 +167,7 @@ WHERE rank = 1
 SELECT 
     customer_id,
     SUM(total_sale) as total_sales
-FROM retail_sales
+FROM retail_salestb
 GROUP BY 1
 ORDER BY 2 DESC
 LIMIT 5
@@ -163,7 +178,7 @@ LIMIT 5
 SELECT 
     category,    
     COUNT(DISTINCT customer_id) as cnt_unique_cs
-FROM retail_sales
+FROM retail_salestb
 GROUP BY category
 ```
 
@@ -178,7 +193,7 @@ SELECT *,
         WHEN EXTRACT(HOUR FROM sale_time) BETWEEN 12 AND 17 THEN 'Afternoon'
         ELSE 'Evening'
     END as shift
-FROM retail_sales
+FROM retail_salestb
 )
 SELECT 
     shift,
