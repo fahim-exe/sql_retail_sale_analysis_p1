@@ -54,12 +54,12 @@ CREATE TABLE retail_salestb
 **Record Count**: Determine the total number of records in the dataset.
 ```sql
 SELECT COUNT(*) FROM retail_salestb;
-'''
+```
 
 **Customer Count**: Find out how many unique customers are in the dataset.
-'''sql
+```sql
 SELECT COUNT(DISTINCT customer_id) FROM retail_salestb;
-'''
+```
 
 **Category Count**: Identify all unique product categories in the dataset.
 '''sql
